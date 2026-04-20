@@ -1,0 +1,2 @@
+gitops_repo_url        = "https://github.com/YOUR_USER/platform-gitops"
+gitops_target_revision = "main"

@@ -1,0 +1,2 @@
+gitops_repo_url        = "https://github.com/phanle1010/platform-gitops"
+gitops_target_revision = "main"
