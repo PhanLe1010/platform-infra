@@ -19,23 +19,32 @@ by Terraform. Each environment has its own state file.
 
 ## Usage
 
-For each environment, run terraform from that directory:
+Each environment requires two apply steps due to a provider bootstrap dependency
+(the kubernetes/helm providers need the cluster to exist before they can initialize).
 
 ```bash
 cd environments/staging
-cp terraform.tfvars.example terraform.tfvars
+
+# Step 1 — create the kind cluster
 terraform init
-terraform plan
+terraform apply -target=module.cluster
+
+# Step 2 — install ArgoCD (registers CRDs)
+terraform apply -target=module.argocd
+
+# Step 3 — register the ArgoCD Application
 terraform apply
 ```
 
-Then repeat for production:
+Repeat for production:
 
 ```bash
-cd ../production
+cd environments/production
 cp terraform.tfvars.example terraform.tfvars
+
 terraform init
-terraform plan
+terraform apply -target=module.cluster
+terraform apply -target=module.argocd
 terraform apply
 ```
 
